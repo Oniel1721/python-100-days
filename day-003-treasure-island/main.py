@@ -21,28 +21,45 @@ ____/______/______/______/______/_____"=.o|o_.--""___/______/______/______/____
 print(treasure_beauty_print)
 print("Welcome to Treasure Island.")
 print("Your mission is to find the treasure.")
-print('You\'re at a cross road. Where do you want to go? Type "left" or "right"')
-direction = input()
-if direction == 'left':
-    print('You\'ve come to a lake. There is an island in the middle of the lake. Type "wait" to wait for a boat. Type "swim" to swim across.')
-    decision = input()
-    if decision == 'wait':
-        print("You arrive at the island unharmed. There is a house with 3 doors. One red, one yellow and one blue. Which colour do you choose?")
-        color = input()
-        if color == 'red':
-            print("It's a room full of fire. Game Over.")
-        elif color == 'yellow':
-            print("You found the treasure! You Win!")
-        elif color == 'blue':
-            print("You enter a room of beasts. Game Over.")
-        else:
-            print("You chose a door that doesn't exist. Game Over.")
-    elif decision == 'swim':
-        print("You get attacked by an angry trout. Game Over.")
-    else:
-        print("You get attacked by an angry trout. Game Over.")
-else:
-    print('You fell into a hole. Game Over.')
+quiz_schema = {
+    'title': 'You\'re at a cross road. Where do you want to go? Type "left" or "right"',
+    'choices': {
+        'left': {
+            'title': 'You\'ve come to a lake. There is an island in the middle of the lake. Type "wait" to wait for a boat. Type "swim" to swim across.',
+            'choices': {
+                'wait': {
+                    'title': "You arrive at the island unharmed. There is a house with 3 doors. One red, one yellow and one blue. Which colour do you choose?",
+                    'choices': {
+                        'red': {
+                            'title': "It's a room full of fire. Game Over."
+                        },
+                        'yellow': {
+                            'title': "You found the treasure! You Win!"
+                        },
+                        'blue': {
+                            'title': "You enter a room of beasts. Game Over."
+                        },
+                    },
+                    'default': "You chose a door that doesn't exist. Game Over."
+                }
+            },
+            'default': "You get attacked by an angry trout. Game Over."
+        }
+    },
+    'default': 'You fell into a hole. Game Over.'
+}
 
+def display_quiz(question: dict):
+    title = question.get('title')
+    default = question.get('default')
+    choices = question.get('choices')
+    if title is None: return
+    print(title)
+    if choices is None: return
+    choice = choices.get(input())
+    if choice is None:
+        print(default)
+        return
+    display_quiz(choice)
 
-
+display_quiz(quiz_schema)
