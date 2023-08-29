@@ -37,3 +37,5 @@ while attempts > 0:
     if guessNumber():
         break
     attempts -= 1
+
+print("You've run out of guesses, you lose.")
